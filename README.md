@@ -11,7 +11,7 @@
 
 ## 0. Change Log
 
-N/A
+* 11/03: Fixed up due date / Moved `insertAdjacentHTML from able to use to prohibited`
 
 ## 1. Before you start
 
