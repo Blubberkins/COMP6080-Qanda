@@ -12,6 +12,7 @@
 ## 0. Change Log
 
 * 11/03: Fixed up due date / Moved `insertAdjacentHTML from able to use to prohibited`
+* 11/03: Updated milestone 3 watching thread wordings and milestone 4 description
 
 ## 1. Before you start
 
@@ -142,12 +143,12 @@ Milestone 3 focuses on how to interact with threads once they've been made
 #### 2.3.4. Watching a thread
 
 * On an individual thread screen, the user should see a "watch" action (button, icon) somewhere above the fold that allows them to watch or unwatch a thread via `PUT /thread/watch`.
-* If the thread is currently watched by this user, the button should imply visually that clicking it will unwatch the thread. If the thread is currently not watched by this user, the button should visually imply clicking it will cause it to be liked.
-* Any liking or unliking should reflect a change in the UI immediately.
+* If the thread is currently watched by this user, the button should imply visually that clicking it will unwatch the thread. If the thread is currently not watched by this user, the button should visually imply clicking it will cause it to be watched.
+* Any watching or unwatching should reflect a change in the UI immediately.
 
 ### 2.4. Milestone 4 - Comments (15%)
 
-Milestone 5 focuses predominately on user profiles and admins manage other admin permissions.
+Milestone 4 focuses on commenting features once the threads have been made.
 
 #### 2.4.1. Showing comments
 
@@ -388,13 +389,13 @@ You should ensure that your programs have been tested on one of the following tw
 In this assignment, you are:
  * Add static HTML/CSS to the stub website provided (i.e. you can put raw HTML/CSS as if it's a static page, even if you then later manipulate it with JavaScript).
  * Build HTML elements and add CSS properties to the DOM via JavaScript.
- * Use `insertAdjacentHTML` and `innerText` properties/functions
+ * Use `innerText` properties/functions
 
 ### 4.6. Prohibited Usages
 
 * You are not allowed to have more than 1 HTML file in your repo.
 * You are strictly **not** allowed to use the `async` and `await` syntax in this assignment. You must use Javascript Promises. The use of any `async` or `await` will result in a 50% penalty of your mark.
-* You are prohibited from using any string-to-DOM parser (e.g. DOMParser, or the `innerHTML` property, or anything similar). The use of any of this will result in a 50% penalty of your mark. You can read more about this [https://www.dhairyashah.dev/posts/why-innerhtml-is-a-bad-idea-and-how-to-avoid-it/](here).
+* You are prohibited from using any string-to-DOM parser (e.g. DOMParser, or the `innerHTML` property, or `insertAdjacentHTML` or anything similar). The use of any of this will result in a 50% penalty of your mark. You can read more about this [https://www.dhairyashah.dev/posts/why-innerhtml-is-a-bad-idea-and-how-to-avoid-it/](here).
 
 ## 5. Marking Criteria
 
