@@ -13,6 +13,7 @@
 
 * 11/03: Fixed up due date / Moved `insertAdjacentHTML from able to use to prohibited`
 * 11/03: Updated milestone 3 watching thread wordings and milestone 4 description
+* 15/03: URL fragments clarified + removal of unique URL requirement
 
 ## 1. Before you start
 
@@ -96,20 +97,18 @@ Milestone 2 focuses on how to make a thread and then view that thread (along wit
   * This new screen should occupy the entire page excluding any header or footers
   * On this screen contains an input field for title, content, and whether or not the thread is private
   * This screen should also contain some form of submit button
-  * This new thread screen should have it's own unique URL 
 * The submit button creates a new thread via `POST /thread`, and once the request returns successfully, returns a user to an new screen that shows that thread (2.2.3)
 
 #### 2.2.2. Getting a list of threads
 
 * When you are on the dashboard, a list of threads should appear (with `GET /threads`) on the left hand side of the page
   * The width of this list should be no more than `400px`.
-* It contains a list of threads where each thread is captured in a box no taller than `100x`.
+* It contains a list of threads where each thread is captured in a box no taller than `100px`.
   * Each box should contain the thread title, the post date, the author, and the number of likes.
 
 #### 2.2.3. Individual thread screen
 
-* When a particular thread is clicked on in the side bar, or after a thread is created, you are taken to an "individual thread screen" which has it's own unique URL (for you to choose).
-  * This URL should be parameterised based on the thread ID
+* When a particular thread is clicked on in the side bar, or after a thread is created, you are taken to an "individual thread screen".
 * This individual thread screen should include the list of threads on the left (`2.2.2`) but the main page body content should contain information on threads that includes:
   * Title
   * Body content
@@ -125,7 +124,6 @@ Milestone 3 focuses on how to interact with threads once they've been made
 * On an individual thread screen, the user should see a "edit" button somewhere above the fold that allows them to edit the thread by taking them to a new unique route that is parameterised by the thread ID.
 * On this screen contains an input field for title, content, and whether or not the thread is private. These fields are pre-populated based on the current thread data.
 * This screen should also contain some form of save button
-* This edit thread screen should have it's own unique URL.
 * When the save button is pressed, `PUT /thread` is called which updates the details, and when that request returns, the user is taken back to the individual thread page.
 
 #### 2.3.2. Deleting a thread
@@ -240,9 +238,9 @@ _No course assistance will be provided for this component, you should do your ow
 #### 2.7.2 Fragment based URL routing
 Users can access different pages using URL fragments:
 ```
-/#profile=1
-/#feed
-/#profile=4
+* `/#thread={threadId}` to access the individual thread screen of that particular `threadId`
+* `/#profile` to view the authorised user's own profile
+* `/#profile={userId}` to view the profile of the user with the particular `userId`
 ```
 
 _No course assistance in lectures or on the forum will be provided for this component, you should do your own research as to how to implement this._
