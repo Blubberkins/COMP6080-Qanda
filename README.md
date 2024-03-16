@@ -14,6 +14,7 @@
 * 11/03: Fixed up due date / Moved `insertAdjacentHTML from able to use to prohibited`
 * 11/03: Updated milestone 3 watching thread wordings and milestone 4 description
 * 15/03: URL fragments clarified + removal of unique URL requirement
+* 16/03: Clarified thread list pagination in milestone 3 that was explained in lectures; Clarified for 2.6.3. that watching is in relation to watching threads and not users + added a hint to help; Removed `2.3.1` requirement about unique URL; Reinforced (which can be inferred from API some admin permissions.
 
 ## 1. Before you start
 
@@ -105,6 +106,7 @@ Milestone 2 focuses on how to make a thread and then view that thread (along wit
   * The width of this list should be no more than `400px`.
 * It contains a list of threads where each thread is captured in a box no taller than `100px`.
   * Each box should contain the thread title, the post date, the author, and the number of likes.
+* Because the API of `GET /threads` returns elements 5 at a time (discussed in lectures), you will need to automatically load the full list one at a time. Section `2.6.1` covers how you can get some extra marks for doing this with an infinite scroll, but for `2.2.2` to get the marks all you need to do is have a `more` button that each time it's clicked, it loads another 5, until no more items are left, then the button disappears.
 
 #### 2.2.3. Individual thread screen
 
@@ -121,15 +123,16 @@ Milestone 3 focuses on how to interact with threads once they've been made
 
 #### 2.3.1. Editing a thread
 
-* On an individual thread screen, the user should see a "edit" button somewhere above the fold that allows them to edit the thread by taking them to a new unique route that is parameterised by the thread ID.
-* On this screen contains an input field for title, content, and whether or not the thread is private. These fields are pre-populated based on the current thread data.
+* On an individual thread screen, the user should see a "edit" button somewhere above the fold that allows them to edit the thread (e.g. by new page or modal).
+* On this screen contains an input field for title, content,  whether or not the thread is private, and whether or not a thread is locked. These fields are pre-populated based on the current thread data.
 * This screen should also contain some form of save button
 * When the save button is pressed, `PUT /thread` is called which updates the details, and when that request returns, the user is taken back to the individual thread page.
+* The edit button only appears if the user is an admin or a creator of that thread.
 
 #### 2.3.2. Deleting a thread
 
 * On an individual thread screen, the user should see a "delete" button somewhere above the fold that allows them to delete the thread via `DELETE /thread`.
-* The delete button only appears if the user is an admin or an owner of that thread.
+* The delete button only appears if the user is an admin or a creator of that thread.
 * Once the thread delete request is returned, the screen should redirect to the latest individual thread post from the thread list.
 
 #### 2.3.3. Liking a thread
@@ -137,6 +140,7 @@ Milestone 3 focuses on how to interact with threads once they've been made
 * On an individual thread screen, the user should see a "like" action (button, icon) somewhere above the fold that allows them to like or unlike a thread via `PUT /thread/like`.
 * If the thread is currently liked by this user, the button should imply visually that clicking it will unlike the thread. If the thread is currently not liked by this user, the button should visually imply clicking it will cause it to be liked.
 * Any liking or unliking should reflect a change in the UI immediately.
+* Locked threads cannot be liked.
 
 #### 2.3.4. Watching a thread
 
@@ -169,6 +173,7 @@ Milestone 4 focuses on commenting features once the threads have been made.
 * If there are comments on the thread, then no input/textarea box should appear, but instead each comment should have a "reply" text/button somewhere in the space that contains the comment info.
   * When this reply text/button is pressed, a modal should appear that contains an input/textarea box and "comment" button.
   * When the comment button is pressed, the text inside the text comment should be posted as a new comment for the thread at `POST /comment` and the modal should disappear.
+* Locked threads cannot have a new comment added to them.
 
 #### 2.4.3. Editing a comment
 
@@ -176,6 +181,7 @@ Milestone 4 focuses on commenting features once the threads have been made.
 * When this edit text/button is pressed, a modal should appear that contains an input/textarea box and "comment" button.
 * The input/textarea box should contain the current comment text.
 * When the comment button is pressed, the text inside the text comment should be posted as the updated comment for the thread at `PUT /comment` and the modal should disappear.
+* To be able to edit a comment, the user has to be either the creator of the comment or an admin of the forum.
 
 #### 2.4.4. Liking a comment
 
@@ -222,7 +228,9 @@ Milestone 5 focuses predominately on user profiles and admins manage other admin
 *Polling is very inefficient for browsers, but can often be used as it simplifies the technical needs on the server.*
 
 #### 2.6.3. Push Notifications
-* Users can receive push notifications when a user they watch posts a thread. To know whether someone or not has posted a thread, you must "poll" the server (i.e. intermittent requests, maybe every second, that check the state). You can implement this either via browser's built in notification APIs or through your own custom built notifications/popups. The notifications are not required to exist outside of the webpage.
+* Users can receive push notifications when a new comment is posted on a thread they watch. 
+* To know whether a new comment has been posted to a thread, you must "poll" the server (i.e. intermittent requests, maybe every second, that check the state). 
+* You can implement this either via browser's built in notification APIs or through your own custom built notifications/popups. The notifications are not required to exist outside of the webpage.
 
 _No course assistance in lectures will be provided for this component, you should do your own research as to how to implement this. There are extensive resources online._
 
