@@ -15,6 +15,7 @@
 * 11/03: Updated milestone 3 watching thread wordings and milestone 4 description
 * 15/03: URL fragments clarified + removal of unique URL requirement
 * 16/03: Clarified thread list pagination in milestone 3 that was explained in lectures; Clarified for 2.6.3. that watching is in relation to watching threads and not users + added a hint to help; Removed `2.3.1` requirement about unique URL; Reinforced (which can be inferred from API some admin permissions.
+* 18/03: Clarified in relation to what to do when there are comments on the thread - a very minor update
 
 ## 1. Before you start
 
@@ -170,7 +171,8 @@ Milestone 4 focuses on commenting features once the threads have been made.
 * If there is no comments on the thread, an input/textarea box should appear below the thread information.
   * Underneath this box, a "Comment" button should exist
   * When the comment button is pressed, the text inside the text comment should be posted as a new comment for the thread at `POST /comment`.
-* If there are comments on the thread, then no input/textarea box should appear, but instead each comment should have a "reply" text/button somewhere in the space that contains the comment info.
+  * If there are comments on the thread, an input/textarea box should appear but at the bottom of the comments instead.
+* Each comment should have a "reply" text/button somewhere in the space that contains the comment info.
   * When this reply text/button is pressed, a modal should appear that contains an input/textarea box and "comment" button.
   * When the comment button is pressed, the text inside the text comment should be posted as a new comment for the thread at `POST /comment` and the modal should disappear.
 * Locked threads cannot have a new comment added to them.
