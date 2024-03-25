@@ -1,7 +1,69 @@
-/* base styles, feel free to edit */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial;
+}
+
+#error-popup {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    padding: 1em;
+}
+
+#login-page, #register-page {
+    height: 60%;
+    width: 400px;
+    min-width: 300px;
+    max-width: 80%;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.2em;
+}
+
+h1, h2 {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 1.5em;
+}
+
+input[type="text"], input[type="password"] {
+    display: block;
+    height: 20px;
+    width: 150%;
+    margin-bottom: 1em;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+button[type="submit"], button[id="show-register"] {
+    height: 30px;
+    width: 100px;
 }

@@ -3,26 +3,50 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>LurkForWork</title>
+    <title>Qanda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- You can add your styles and scripts here -->
     <link rel="stylesheet" type="text/css" media="screen" href="styles/global.css" />
 </head>
 <body>
-    <!-- This is an example app structure, you can modify this as much as you choose --> 
-    <header>
-        <h1>lurkforwork.com</h1>
-        <nav>
-            <li class="nav-item">Item</li>
-            <li class="nav-item">Item</li>
-        </nav>
-    </header>
+    <header></header>
     <main role="main">
-        <!-- app goes here --> 
+        <div id="login-page">
+            <h1>Login to Qanda</h1>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="text" id="login-email" placeholder="Email">
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" placeholder="Password">
+                <button type="submit">Login</button>
+            </form>
+            <label for="show-register">Don't have an account yet?</label>
+            <button id="show-register">Register</button>
+        </div>
+        <div id="register-page" style="display: none;">
+            <h2>Create a Qanda account</h2>
+            <form id="register-form">
+                <label for="register-email">Email:</label>
+                <input type="text" id="register-email" placeholder="Email">
+                <label for="register-name">Full Name:</label>
+                <input type="text" id="register-name" placeholder="Name">
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" placeholder="Password">
+                <label for="register-confirm-password">Confirm password:</label>
+                <input type="password" id="register-confirm-password" placeholder="Confirm Password">
+                <button type="submit">Register</button>
+            </form>
+            <button id="show-login">Back to Login</button>
+        </div>
+        <div id="error-popup" style="display: none;">
+            <span id="error-message"></span>
+            <button id="close-error">X</button>
+        </div>
+        <div id="forum-page" style="display: none;">
+            <button id="logout">Logout</button>
+        </div>
+        <div id="profile-page"></div>
     </main>
-    <footer>
-        <p>&copy; lurkforwork.com 2022</p>
-    </footer>
+    <footer></footer>
     <script type="module" src="src/main.js"></script>
 </body>
 </html>
