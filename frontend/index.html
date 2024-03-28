@@ -6,11 +6,13 @@
     <title>Qanda</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/global.css" />
+    <script type="module" src="src/main.js" defer></script>
 </head>
 <body>
     <header></header>
     <main role="main">
         <div id="login-page">
+
             <h1>Login to Qanda</h1>
             <form id="login-form">
                 <label for="login-email">Email:</label>
@@ -21,8 +23,10 @@
             </form>
             <label for="show-register">Don't have an account yet?</label>
             <button id="show-register">Register</button>
+
         </div>
         <div id="register-page" style="display: none;">
+
             <h2>Create a Qanda account</h2>
             <form id="register-form">
                 <label for="register-email">Email:</label>
@@ -36,17 +40,58 @@
                 <button type="submit">Register</button>
             </form>
             <button id="show-login">Back to Login</button>
+
         </div>
         <div id="error-popup" style="display: none;">
+
             <span id="error-message"></span>
             <button id="close-error">X</button>
+
         </div>
-        <div id="forum-page" style="display: none;">
-            <button id="logout">Logout</button>
+        <div id="top-bar" style="display: none;">
+
+            <span>Qanda Forum</span>
+            <div class="right-elements">
+                <button id="home">Home</button>
+                <button id="create-thread">Create</button>
+                <button id="logout">Logout</button>
+            </div>
+
+        </div>
+        <div id="thread-bar" style="display: none;">
+            <h1>Threads</h1>
+            <div id="thread-list"></div>
+            <button id="load-more-threads">Load More</button>
+        </div>
+        <div id="forum-page" style="display: none;"></div>
+        <div id="create-thread-page" style="display: none;">
+
+            <h1>Create a thread</h1>
+            <form id="create-thread-form">
+
+                <label for="create-thread-title">Thread Title:</label>
+                <input type="text" id="create-thread-title" placeholder="Title">
+                <label for="create-thread-content">Content:</label>
+                <input type="text" id="create-thread-content" placeholder="Write your post here">
+
+                <div id="create-thread-visibility">
+                    <label>
+                        <input type="radio" name="visibility" value="true" checked>
+                        Public
+                    </label>
+                    <label>
+                        <input type="radio" name="visibility" value="false">
+                        Private
+                    </label>
+                </div>
+
+                <button type="submit">Create Thread</button>
+
+            </form>
+
         </div>
         <div id="profile-page"></div>
     </main>
     <footer></footer>
-    <script type="module" src="src/main.js"></script>
 </body>
 </html>

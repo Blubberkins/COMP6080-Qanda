@@ -13,6 +13,7 @@ html, body {
     background-color: red;
     color: white;
     padding: 1em;
+    z-index: 1;
 }
 
 #login-page, #register-page {
@@ -51,10 +52,14 @@ form {
     margin-bottom: 1.5em;
 }
 
+#login-form, #register-form, #create-thread-form {
+    width: 300px;
+}
+
 input[type="text"], input[type="password"] {
     display: block;
     height: 20px;
-    width: 150%;
+    width: 100%;
     margin-bottom: 1em;
 }
 
@@ -63,7 +68,104 @@ label {
     margin-bottom: 0.5em;
 }
 
-button[type="submit"], button[id="show-register"] {
+button[type="submit"] {
     height: 30px;
+    width: 150px;
+    margin-top: 0.5em;
+}
+
+button[id="show-register"] {
     width: 100px;
+}
+
+#top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: calc(100% - 2 * 10px); /* 100% minus the side padding */
+    height: 40px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #333;
+    color: white;
+    font-size: 1.3em;
+}
+
+.right-elements {
+    display: flex;
+}
+
+button[id="logout"], button[id="create-thread"], button[id="home"] {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#thread-bar {
+    position: fixed;
+    top: 59px;
+    left: 0px;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* enables scrolling */
+
+    width: 400px;
+    height: calc(100% - (59px + 20px + 2px)); /* screen height - (top position + top/bottom padding + top/bottom border) */
+    padding: 10px;
+
+    border: 1px solid #333;
+}
+
+#thread-list {
+    line-height: 0.5em;
+}
+
+#thread-list > div > h3 {
+    margin-top: 0.5em;
+}
+
+
+.thread-box {
+    max-height: 100px;
+    border: 1px solid #333;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button[id="load-more-threads"] {
+    display: block;
+    height: 40px;
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+#create-thread-page {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 400px;
+    min-width: 300px;
+}
+
+.radio-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
