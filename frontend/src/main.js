@@ -399,6 +399,11 @@ document.addEventListener('DOMContentLoaded', function() {
         while (threadList.firstChild) {
             threadList.removeChild(threadList.firstChild);
         }
+        // Remove all inputs and reset to their default values
+        const allInputs = document.querySelectorAll('input, textarea');
+        allInputs.forEach(input => {
+            input.value = '';
+        });
 
         loadPage('login-page');
     });
