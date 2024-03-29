@@ -17,7 +17,7 @@ html, body {
 }
 
 #login-page, #register-page {
-    height: 60%;
+    height: 600px;
     width: 400px;
     min-width: 300px;
     max-width: 80%;
@@ -129,16 +129,31 @@ button[id="logout"], button[id="create-thread"], button[id="home"] {
     line-height: 0.5em;
 }
 
-#thread-list > div > h3 {
-    margin-top: 0.5em;
+#thread-list > div > h3, #thread-list > div > p {
+    height: 24px;
+    line-height: 24px;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+#thread-list > div > p {
+    height: 16px;
+    line-height: 16px;
+}
 
 .thread-box {
     max-height: 100px;
     border: 1px solid #333;
     padding: 10px;
     margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5em;
 }
 
 button[id="load-more-threads"] {
@@ -160,7 +175,11 @@ button[id="load-more-threads"] {
     align-items: center;
 
     width: 400px;
-    min-width: 200px;
+}
+
+#create-thread-page {
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #create-thread-content {
@@ -176,4 +195,30 @@ textarea[id="create-thread-content"] {
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+@media (max-width: 1024px) {
+    #thread-bar {
+        width: 300px;
+    }
+    #thread-page {
+        left: 322px; /*offset accounts for thread bar*/
+        width: 300px;
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        font-size: 0.7em;
+    }
+    #thread-bar {
+        width: 150px;
+    }
+    #thread-page {
+        left: 172px; /*offset accounts for thread bar*/
+        width: 200px;
+    }
+    #create-thread-page {
+        width: 380px;
+    }
 }

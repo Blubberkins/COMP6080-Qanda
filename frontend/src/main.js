@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         postReq('/thread', userToken, body)
             .then(response => {
-                loadThreadInfo(thread.threadId);
+                loadThreadInfo(response.id);
                 loadPage('thread-page');
             })
             .catch(error => {
