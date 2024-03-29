@@ -11,6 +11,7 @@ function showPage(page) {
     document.getElementById('register-page').style.display = 'none';
     document.getElementById('forum-page').style.display = 'none';
     document.getElementById('create-thread-page').style.display = 'none';
+    document.getElementById('thread-page').style.display = 'none';
     document.getElementById('profile-page').style.display = 'none';
     // Hide all page elements
     document.getElementById('error-popup').style.display = 'none';
@@ -39,6 +40,14 @@ function loadPage(page) {
         case 'create-thread-page':
             showPage('create-thread-page');
             showPageElement('top-bar');
+            break;
+
+        case 'thread-page':
+            showPage('thread-page');
+            showPageElement('top-bar');
+            showPageElement('thread-bar');
+            removeDisplayedThreads();
+            getThreads(0);
             break;
 
         default:
@@ -150,7 +159,7 @@ function getThreads(startIndex) {
             // Render each thread's details in the thread-list element (after all threads have been mapped into threadDetails)
             threadDetails.forEach(thread => {
                 const threadDiv = document.createElement('div');
-                // adds the css thread-box which visually encapsulates the thread details
+                // Adds the css thread-box which visually encapsulates the thread details
                 threadDiv.classList.add('thread-box');
 
                 // Creates the thread details to display
@@ -173,7 +182,13 @@ function getThreads(startIndex) {
                 threadDiv.appendChild(postDate);
                 threadDiv.appendChild(likes);
 
-                // appends the threadDiv to the list of threads
+                // Add click event to threadDiv that loads the individual thread page
+                threadDiv.addEventListener('click', () => {
+                    loadThreadInfo(thread.threadId);
+                    loadPage('thread-page');
+                });
+
+                // Appends the threadDiv to the list of threads
                 document.getElementById('thread-list').appendChild(threadDiv);
             });
 
@@ -192,12 +207,57 @@ function getThreads(startIndex) {
         });
 }
 
-// Remove all displayed threads from the threadList
+// Remove all displayed threads from the thread bar and thread page
 function removeDisplayedThreads() {
     const threadList = document.getElementById('thread-list');
     while (threadList.firstChild) {
         threadList.removeChild(threadList.firstChild);
     }
+    const threadPage = document.getElementById('thread-page');
+    while (threadPage.firstChild) {
+        threadPage.removeChild(threadPage.firstChild);
+    }
+}
+
+// Loads thread info onto the thread-page
+function loadThreadInfo(threadId) {
+    getThread(threadId)
+        .then(thread => {
+            const threadDiv = document.createElement('div');
+
+            // Creates the thread details to display
+            const title = document.createElement('h1');
+            title.innerText = thread.title;
+
+            const author = document.createElement('p');
+            author.innerText = 'Author ID: ' + thread.creatorId;
+
+            const postDate = document.createElement('p');
+            const createdAt = thread.createdAt;
+            postDate.innerText = 'Post Date: ' + createdAt.split("T")[0];
+
+            const likes = document.createElement('p');
+            likes.innerText = 'Likes: ' + thread.likes.length;
+
+            const content = document.createElement('p');
+            content.innerText = thread.content;
+            content.style.marginTop = '3em';
+
+            // Appends thread details to the threadDiv
+            threadDiv.appendChild(title);
+            threadDiv.appendChild(author);
+            threadDiv.appendChild(postDate);
+            threadDiv.appendChild(likes);
+            threadDiv.appendChild(content);
+
+            // Adds the threadDiv to the thread-page
+            document.getElementById('thread-page').appendChild(threadDiv);
+
+        })
+        .catch(error => {
+            document.getElementById('error-message').textContent = error.message;
+            showPageElement('error-popup');
+        });
 }
 
 // EVENT LISTENERS
@@ -228,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         postReq('/auth/login', '', body)
             .then(response => {
-                // put user authentication details in localStorage
+                // Put user authentication details in localStorage
                 localStorage.setItem('user', JSON.stringify(response));
                 loadPage('forum-page');
             })
@@ -254,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const confirmPassword = document.getElementById('register-confirm-password').value;
         const body = { "email": email, "name": name, "password": password }
 
-        // shows error if password and confirm password values do not match
+        // Shows error if password and confirm password values do not match
         if (!(password === confirmPassword)) {
             document.getElementById('error-message').textContent = "Passwords do not match";
             showPageElement('error-popup');
@@ -263,9 +323,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         postReq('/auth/register', '', body)
             .then(response => {
-                // put user authentication details in localStorage
+                // Put user authentication details in localStorage
                 localStorage.setItem('user', JSON.stringify(response));
-                // show the main forum page
                 loadPage('forum-page');
             })
             .catch(error => {
@@ -320,9 +379,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const title = document.getElementById('create-thread-title').value;
         const content = document.getElementById('create-thread-content').value;
-        // checkedButton gets the selected radio button
+        // CheckedButton gets the selected radio button
         const checkedButton = document.getElementById('create-thread-visibility').querySelector('input[type="radio"]:checked');
-        // the button's value is stored as a boolean (true if public is checked, false if private is checked, or null if none are checked)
+        // The button's value is stored as a boolean (true if public is checked, false if private is checked, or null if none are checked)
         const isPublic = checkedButton ? checkedButton.value === "true" : null;
         const body = { 'title': title, 'content': content, 'isPublic': isPublic };
 
@@ -335,7 +394,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         postReq('/thread', userToken, body)
             .then(response => {
-                loadPage('forum-page');
+                loadThreadInfo(thread.threadId);
+                loadPage('thread-page');
             })
             .catch(error => {
                 document.getElementById('error-message').textContent = error.message;

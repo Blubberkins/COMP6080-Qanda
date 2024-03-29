@@ -72,8 +72,9 @@
                 <label for="create-thread-title">Thread Title:</label>
                 <input type="text" id="create-thread-title" placeholder="Title">
                 <label for="create-thread-content">Content:</label>
-                <input type="text" id="create-thread-content" placeholder="Write your post here">
+                <textarea id="create-thread-content" placeholder="Write your post here"></textarea>
 
+                <label for="create-thread-visibility">Thread Visibility:</label>
                 <div id="create-thread-visibility">
                     <label>
                         <input type="radio" name="visibility" value="true" checked>
@@ -90,6 +91,7 @@
             </form>
 
         </div>
+        <div id="thread-page" style="display: none;"></div>
         <div id="profile-page"></div>
     </main>
     <footer></footer>
