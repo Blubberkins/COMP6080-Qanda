@@ -156,49 +156,61 @@ function getThreads(startIndex) {
             return Promise.all(response.map(threadId => getThread(threadId)));
         })
         .then(threadDetails => {
-            // Render each thread's details in the thread-list element (after all threads have been mapped into threadDetails)
-            threadDetails.forEach(thread => {
-                const threadDiv = document.createElement('div');
-                // Adds the css thread-box which visually encapsulates the thread details
-                threadDiv.classList.add('thread-box');
-
-                // Creates the thread details to display
-                const title = document.createElement('h3');
-                title.innerText = thread.title;
-
-                const author = document.createElement('p');
-                author.innerText = 'Author ID: ' + thread.creatorId;
-
-                const postDate = document.createElement('p');
-                const createdAt = thread.createdAt;
-                postDate.innerText = 'Post Date: ' + createdAt.split("T")[0];
-
-                const likes = document.createElement('p');
-                likes.innerText = 'Likes: ' + thread.likes.length;
-
-                // Appends thread details to the threadDiv
-                threadDiv.appendChild(title);
-                threadDiv.appendChild(author);
-                threadDiv.appendChild(postDate);
-                threadDiv.appendChild(likes);
-
-                // Add click event to threadDiv that loads the individual thread page
-                threadDiv.addEventListener('click', () => {
-                    loadThreadInfo(thread.threadId);
-                    loadPage('thread-page');
-                });
-
-                // Appends the threadDiv to the list of threads
-                document.getElementById('thread-list').appendChild(threadDiv);
+            // Retrieve author's name for each thread
+            const getUserPromises = threadDetails.map(thread => {
+                return getUser(thread.creatorId);
             });
 
-            // Hides the 'Load More' button if less than the max number of threads are loaded
-            if (threadDetails.length < 5) {
-                document.getElementById('load-more-threads').style.display = 'none';
-            // Otherwise shows it
-            } else {
-                document.getElementById('load-more-threads').style.display = '';
-            }
+            // Wait for all getUser() promises to resolve
+            return Promise.all(getUserPromises)
+                .then(authors => {
+
+                    // Render each thread's details in the thread-list element (after all threadDetails and getUser promises have resolved)
+                    threadDetails.forEach((thread, index) => {
+                        const threadDiv = document.createElement('div');
+                        // Adds the css thread-box which visually encapsulates the thread details
+                        threadDiv.classList.add('thread-box');
+
+                        // Creates the thread details to display
+                        const title = document.createElement('h3');
+                        title.innerText = thread.title;
+
+                        const author = document.createElement('p');
+                        const authorName = authors[index].name;
+                        author.innerText = 'Author: ' + authorName;
+
+                        const postDate = document.createElement('p');
+                        const createdAt = thread.createdAt;
+                        postDate.innerText = 'Post Date: ' + createdAt.split("T")[0];
+
+                        const likes = document.createElement('p');
+                        likes.innerText = 'Likes: ' + thread.likes.length;
+
+                        // Appends thread details to the threadDiv
+                        threadDiv.appendChild(title);
+                        threadDiv.appendChild(author);
+                        threadDiv.appendChild(postDate);
+                        threadDiv.appendChild(likes);
+
+                        // Add click event to threadDiv that loads the individual thread page
+                        threadDiv.addEventListener('click', () => {
+                            loadThreadInfo(thread.threadId);
+                            loadPage('thread-page');
+                        });
+
+                        // Appends the threadDiv to the list of threads
+                        document.getElementById('thread-list').appendChild(threadDiv);
+                    });
+
+                    // Hides the 'Load More' button if less than the max number of threads are loaded
+                    if (threadDetails.length < 5) {
+                        document.getElementById('load-more-threads').style.display = 'none';
+                    // Otherwise shows it
+                    } else {
+                        document.getElementById('load-more-threads').style.display = '';
+                    }
+
+                });
 
         })
         .catch(error => {
@@ -223,41 +235,80 @@ function removeDisplayedThreads() {
 function loadThreadInfo(threadId) {
     getThread(threadId)
         .then(thread => {
-            const threadDiv = document.createElement('div');
 
-            // Creates the thread details to display
-            const title = document.createElement('h1');
-            title.innerText = thread.title;
+            // Wait for getUser() promise to resolve
+            return getUser(thread.creatorId)
+                .then(authorDetails => {
 
-            const author = document.createElement('p');
-            author.innerText = 'Author ID: ' + thread.creatorId;
+                    const threadDiv = document.createElement('div');
 
-            const postDate = document.createElement('p');
-            const createdAt = thread.createdAt;
-            postDate.innerText = 'Post Date: ' + createdAt.split("T")[0];
+                    // Creates the thread details to display
+                    const title = document.createElement('h1');
+                    title.innerText = thread.title;
 
-            const likes = document.createElement('p');
-            likes.innerText = 'Likes: ' + thread.likes.length;
+                    const author = document.createElement('p');
+                    const authorName = authorDetails.name;
+                    author.innerText = 'Author: ' + authorName;
 
-            const content = document.createElement('p');
-            content.innerText = thread.content;
-            content.style.marginTop = '3em';
+                    const postDate = document.createElement('p');
+                    const createdAt = thread.createdAt;
+                    postDate.innerText = 'Post Date: ' + createdAt.split("T")[0];
 
-            // Appends thread details to the threadDiv
-            threadDiv.appendChild(title);
-            threadDiv.appendChild(author);
-            threadDiv.appendChild(postDate);
-            threadDiv.appendChild(likes);
-            threadDiv.appendChild(content);
+                    const likes = document.createElement('p');
+                    likes.innerText = 'Likes: ' + thread.likes.length;
 
-            // Adds the threadDiv to the thread-page
-            document.getElementById('thread-page').appendChild(threadDiv);
+                    const content = document.createElement('p');
+                    content.innerText = thread.content;
+                    content.style.marginTop = '3em';
+
+                    // Appends thread details to the threadDiv
+                    threadDiv.appendChild(title);
+                    threadDiv.appendChild(author);
+                    threadDiv.appendChild(postDate);
+                    threadDiv.appendChild(likes);
+                    threadDiv.appendChild(content);
+
+                    // Adds the threadDiv to the thread-page
+                    document.getElementById('thread-page').appendChild(threadDiv);
+
+                });
 
         })
         .catch(error => {
+            console.error(error);
             document.getElementById('error-message').textContent = error.message;
             showPageElement('error-popup');
         });
+}
+
+// Retrieves user info from their id as a promise
+function getUser(id) {
+    // Gets user token
+    const userToken = JSON.parse(localStorage.getItem('user')).token;
+
+    // Loads the details of the thread
+    return getReq('/user', userToken, 'userId=' + id)
+        .then(response => {
+            // Separate response info into separate variables
+            const userId = response.id;
+            const email = response.email;
+            const name = response.name;
+            const image = response.image;
+            const isAdmin = response.admin;
+
+            // Return an object containing all variables
+            return {
+                userId,
+                email,
+                name,
+                image,
+                isAdmin
+            };
+        })
+        .catch(error => {
+            throw new Error(error.message);
+        });
+
 }
 
 // EVENT LISTENERS
